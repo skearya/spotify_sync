@@ -14,6 +14,7 @@ import { listen } from "listhen";
 import { createStorage } from "unstorage";
 import fsDriver from "unstorage/drivers/fs";
 import crypto from "node:crypto";
+import cron from "node-cron";
 import { downloadFromDeezer } from "./deemix.js";
 
 const storage = createStorage({
@@ -100,7 +101,7 @@ const router = createRouter()
         })
     );
 
-setInterval(async () => {
+cron.schedule("*/20 * * * *", async () => {
     if (await storage.hasItem("auth:access_token")) {
         let items: Item[];
 
@@ -191,7 +192,7 @@ setInterval(async () => {
     } else {
         console.log("not authorized :(");
     }
-}, 60 * 1000);
+});
 
 app.use(router);
 
