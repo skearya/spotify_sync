@@ -15,6 +15,21 @@ let plugins = {
 
 plugins.spotify.setup();
 
+const spotifySettings = plugins.spotify.getSettings();
+
+if (!spotifySettings.clientId && !spotifySettings.clientSecret) {
+    if (!process.env.CLIENT_ID && !process.env.CLIENT_SECRET)
+        throw new Error("client id and secret environment variables missing");
+
+    const newSpotifySettings: SpotifySettings = {
+        clientId: process.env.CLIENT_ID!,
+        clientSecret: process.env.CLIENT_SECRET!,
+        fallbackSearch: false,
+    };
+
+    plugins.spotify.saveSettings(newSpotifySettings);
+}
+
 await dz.login_via_arl(process.env.DEEZER_ARL);
 
 export async function downloadFromDeezer(song: { url: string; name: string }) {
@@ -29,4 +44,11 @@ export async function downloadFromDeezer(song: { url: string; name: string }) {
             console.log(`Download complete for ${song.name}`);
         }
     });
+}
+
+interface SpotifySettings {
+    clientId: string;
+    clientSecret: string;
+    accessToken?: string;
+    fallbackSearch?: boolean;
 }

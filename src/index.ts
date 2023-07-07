@@ -191,7 +191,7 @@ setInterval(async () => {
     } else {
         console.log("not authorized :(");
     }
-}, 20000);
+}, 60 * 1000);
 
 app.use(router);
 
@@ -209,8 +209,8 @@ interface Track {
     disc_number: number;
     duration_ms: number;
     explicit: boolean;
-    external_ids: Externalids;
-    external_urls: Externalurls;
+    external_ids: ExternalIDs;
+    external_urls: ExternalURLs;
     href: string;
     id: string;
     is_local: boolean;
@@ -222,7 +222,7 @@ interface Track {
     uri: string;
 }
 
-interface Externalids {
+interface ExternalIDs {
     isrc: string;
 }
 
@@ -230,7 +230,7 @@ interface Album {
     album_type: string;
     artists: Artist[];
     available_markets: string[];
-    external_urls: Externalurls;
+    external_urls: ExternalURLs;
     href: string;
     id: string;
     images: Image[];
@@ -249,7 +249,7 @@ interface Image {
 }
 
 interface Artist {
-    external_urls: Externalurls;
+    external_urls: ExternalURLs;
     href: string;
     id: string;
     name: string;
@@ -257,6 +257,6 @@ interface Artist {
     uri: string;
 }
 
-interface Externalurls {
+interface ExternalURLs {
     spotify: string;
 }
